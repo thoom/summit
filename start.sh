@@ -25,15 +25,11 @@ if [ ! -d ".git" ]; then
       git clone $GIT_REPO /app
     fi
   fi
-
-  if [ -f "Gemfile" ]; then
-    bundle install
-  fi
 fi
 
 if [ -f "Gemfile" ]; then
-  bundle install
+  bundle install --deployment
 fi
 
-# Start supervisord and services
-thin -R config.ru -p 9000 start
+# Start thin
+exec thin -R config.ru -p 9000 start

@@ -7,7 +7,9 @@ RUN apk add --no-cache --update \
     git \
     openssh \
     mariadb-dev \
-    && gem install -N sinatra thin
+    && gem install -N \
+    sinatra \ 
+    thin
 
 COPY app /app
 COPY start.sh /start.sh
