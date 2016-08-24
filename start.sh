@@ -13,6 +13,11 @@ fi
 
 cd /app
 
+if [ ! -f "config.ru" ]; then
+  echo "config.ru missing"
+  exit 1
+fi
+
 # Dont pull code down if the .git folder exists
 if [ ! -d ".git" ]; then
   # Pull down code from git for our site!
@@ -28,7 +33,7 @@ if [ ! -d ".git" ]; then
 fi
 
 if [ -f "Gemfile" ]; then
-  bundle install --deployment
+  bundle install
 fi
 
 # Start thin
