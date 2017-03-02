@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Disable Strict Host checking for non interactive git clones
-
 mkdir -p -m 0700 /root/.ssh
 echo -e "Host *\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 
@@ -12,11 +11,6 @@ if [ ! -z "$SSH_KEY" ]; then
 fi
 
 cd /app
-
-if [ ! -f "config.ru" ]; then
-  echo "config.ru missing"
-  exit 1
-fi
 
 # Dont pull code down if the .git folder exists
 if [ ! -d ".git" ]; then
@@ -32,9 +26,14 @@ if [ ! -d ".git" ]; then
   fi
 fi
 
+if [ ! -f "config.ru" ]; then
+  echo "config.ru missing"
+  exit 1
+fi
+
 if [ -f "Gemfile" ]; then
-  bundle install
+  bundle install --without=development
 fi
 
 # Start thin
-exec thin -R config.ru -p 9000 start
+thin -R config.ru -p 9000 start
